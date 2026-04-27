@@ -152,9 +152,10 @@ button:active { transform: scale(0.96); }
 
 /* ── Small devices: 414px and below ── */
 @media (max-width: 414px) {
+  /* !important overrides the inline borderRadius: "2.5rem" on GlassCard */
   .glass-card {
-    padding: 0.65rem;
-    border-radius: 14px;
+    padding: 0.65rem !important;
+    border-radius: 14px !important;
   }
 
   /* MainContent inner padding */
@@ -177,13 +178,44 @@ button:active { transform: scale(0.96); }
   .glass-card h2 {
     font-size: 13px !important;
   }
+
+  /* ── Detail cards: shrink big value numbers ── */
+  .glass-card .text-3xl {
+    font-size: 1.45rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Reduce icon badge so it doesn't push content to edges */
+  .glass-card .w-11 {
+    width: 2.1rem !important;
+    height: 2.1rem !important;
+  }
+  .glass-card .h-11 {
+    height: 2.1rem !important;
+  }
+
+  /* Wind / humidity scale labels at bar edges */
+  .glass-card .flex.justify-between span,
+  .glass-card .flex.justify-between .text-\[10px\] {
+    font-size: 8px !important;
+  }
+
+  /* Feels-like range labels */
+  .glass-card .mt-2 span {
+    font-size: 8px !important;
+  }
+
+  /* Small unit labels beside the big number */
+  .glass-card .text-sm {
+    font-size: 0.72rem !important;
+  }
 }
 
 /* ── Extra small: 400px and below ── */
 @media (max-width: 400px) {
   .glass-card {
-    padding: 0.55rem;
-    border-radius: 12px;
+    padding: 0.5rem !important;
+    border-radius: 12px !important;
   }
 
   h1 {
@@ -197,13 +229,24 @@ button:active { transform: scale(0.96); }
     padding-top: 8px !important;
     padding-bottom: 8px !important;
   }
+
+  /* Further shrink big values on 400px */
+  .glass-card .text-3xl {
+    font-size: 1.3rem !important;
+  }
+
+  .glass-card .w-11,
+  .glass-card .h-11 {
+    width: 1.9rem !important;
+    height: 1.9rem !important;
+  }
 }
 
 /* ── Very small: 375px and below (iPhone SE, older Android) ── */
 @media (max-width: 375px) {
   .glass-card {
-    padding: 0.5rem;
-    border-radius: 10px;
+    padding: 0.45rem !important;
+    border-radius: 10px !important;
   }
 
   h1 {
@@ -214,8 +257,18 @@ button:active { transform: scale(0.96); }
     font-size: 12px !important;
   }
 
-  /* WV avatar badge — hide on very small */
-  .wv-badge {
-    display: none !important;
+  /* Shrink big numbers even more */
+  .glass-card .text-3xl {
+    font-size: 1.2rem !important;
+  }
+
+  /* Bar edge labels */
+  .glass-card .flex.justify-between span {
+    font-size: 7.5px !important;
+  }
+
+  /* Card section titles */
+  .glass-card .text-sm:first-child {
+    font-size: 11px !important;
   }
 }

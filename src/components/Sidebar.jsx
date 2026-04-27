@@ -44,16 +44,16 @@ function CitySkyline({ theme }) {
   );
 }
 
-function AddCityModal({ onAdd, onClose }) {
+function AddCityModal({ onAdd, onClose, cities, onDelete }) {
   const [input, setInput] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     const val = input.trim();
-    if (val) { onAdd(val); onClose(); }
+    if (val) { onAdd(val); setInput(""); }
   };
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center" style={{background:"rgba(0,0,0,0.50)",borderRadius:"inherit"}}>
-      <div className="bg-white rounded-2xl p-5 w-64 shadow-2xl">
+      <div className="bg-white rounded-2xl p-5 shadow-2xl" style={{width:"75%",maxWidth:260,maxHeight:"82%",overflowY:"auto"}}>
         <div className="flex items-center justify-between mb-3">
           <span className="text-gray-700 font-bold text-sm">Add a City</span>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X size={16}/></button>
@@ -66,6 +66,27 @@ function AddCityModal({ onAdd, onClose }) {
           />
           <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 active:scale-95 text-white font-bold text-sm py-2 rounded-xl transition-all">Add City</button>
         </form>
+
+        {/* ── Saved cities list ── */}
+        {cities.length > 0 && (
+          <div className="mt-4 border-t border-gray-100 pt-3">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Your Cities</p>
+            <div className="flex flex-col gap-1.5">
+              {cities.map((c, i) => (
+                <div key={i} className="flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-gray-50 border border-gray-100 group">
+                  <span className="text-xs font-semibold text-gray-700 truncate mr-2">{c}</span>
+                  <button
+                    onClick={() => onDelete(i)}
+                    className="flex-shrink-0 text-gray-300 hover:text-red-400 transition-colors"
+                    title="Remove city"
+                  >
+                    <X size={13}/>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -132,6 +153,18 @@ export default function Sidebar({ weatherData, loading, onCityChange, theme, tim
     }
   };
 
+  const handleDeleteCity = (idx) => {
+    const updated = cities.filter((_, i) => i !== idx);
+    setCities(updated);
+    if (updated.length === 0) {
+      setCityIdx(0);
+    } else {
+      const newIdx = Math.min(cityIdx, updated.length - 1);
+      setCityIdx(newIdx);
+      onCityChange && onCityChange(updated[newIdx]);
+    }
+  };
+
   const isNight = theme?.id?.includes("Night") || theme?.id?.includes("rain") || theme?.id?.includes("thunder");
   const textMain  = "rgba(255,255,255,0.95)";
   const textSub   = "rgba(255,255,255,0.60)";
@@ -150,7 +183,7 @@ export default function Sidebar({ weatherData, loading, onCityChange, theme, tim
       {/* Background animation */}
       <WeatherBackground animation={theme?.animation} />
 
-      {showModal && <AddCityModal onAdd={handleAddCity} onClose={() => setShowModal(false)}/>}
+      {showModal && <AddCityModal onAdd={handleAddCity} onClose={() => setShowModal(false)} cities={cities} onDelete={handleDeleteCity}/>}
 
       {/* ── Top bar ── */}
       <div className="relative z-10 flex items-center justify-between px-5 pt-5 pb-2">

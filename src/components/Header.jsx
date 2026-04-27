@@ -197,17 +197,6 @@ export default function Header({ onSearch, loading, searchValue, theme, timezone
           )}
         </div>
 
-        <div
-          style={{
-            width: 40, height: 40, borderRadius: "50%", flexShrink: 0,
-            background: "linear-gradient(135deg, #f97316, #ec4899)",
-            boxShadow: "0 4px 12px rgba(249,115,22,0.35)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            color: "white", fontWeight: 800, fontSize: 13,
-          }}
-        >
-          WV
-        </div>
       </div>
     </div>
   );
